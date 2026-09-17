@@ -36,6 +36,7 @@ button:focus-visible{outline:2px solid var(--brown);outline-offset:3px;border-ra
 .nav:hover:not(:disabled){background:#EFE7D8;color:var(--brown)}
 .nav:disabled{color:#BCAE9A;cursor:default}
 
+.datehint{margin:0 22px 14px;font-size:12.5px;color:var(--ink3);text-align:center;font-weight:500}
 .notice{margin:0 22px;padding:13px 15px;border-radius:8px;
   background:#F0E4CC;border:1.5px solid #D8C39C;
   font-size:13.5px;color:#5A4218;line-height:1.65;font-weight:500}
@@ -156,6 +157,7 @@ button:focus-visible{outline:2px solid var(--brown);outline-offset:3px;border-ra
   .brand{font-size:31px}
   .brand small{font-size:14px;margin-top:8px}
   .datebar{margin-top:0;width:320px;flex:none}
+  .datehint{margin:0 0 14px;text-align:right}
   .notice{margin:0}
   .lead{padding:28px 0 20px;font-size:18px}
   .lead .big{font-size:23px}
@@ -185,6 +187,7 @@ button:focus-visible{outline:2px solid var(--brown);outline-offset:3px;border-ra
       <button class="nav" id="next">&rsaquo;</button>
     </div>
   </header>
+  <div class="datehint">▲ 날짜를 누르면 지난 공판일을 볼 수 있습니다</div>
   <div id="notice"></div>
   <main id="main"><div class="empty">불러오는 중…</div></main>
   <footer class="foot">
@@ -562,7 +565,6 @@ function render(d){
     var maxKg = Math.max.apply(null, kgs.concat([1]));
     var bestName = topGrade(all);
     var bestIdx = bestName ? GRADES.indexOf(bestName) : -1;
-    var bestPrice = bestName ? priceOf(all, bestName) : 0;
     var md = d.slice(5).replace('-','월 ') + '일';
 
     var grouped = {};
@@ -646,9 +648,7 @@ function render(d){
       '<div class="chart" id="chartBox"><div class="sub">그리는 중…</div></div></section>';
 
     main.innerHTML =
-      '<p class="lead">' + md + ' 공판에서 전국 <b>' + regions.length + '곳</b>이 열렸습니다. ' +
-      (bestName ? '가장 높은 등급은 <b>' + bestName + '</b>으로 <span class="big num">' +
-        won(bestPrice) + '</span>원이었습니다.' : '거래된 물량이 없습니다.') + '</p>' +
+      '<p class="lead">' + md + ' 공판 현황입니다.</p>' +
       '<dl class="stats num">' +
       '<div><dt>총 물량</dt><dd>' + t.kg.toFixed(1) + ' kg</dd></div>' +
       '<div><dt>총 금액</dt><dd>' + won(t.amt / 10000) + ' 만원</dd></div>' +
