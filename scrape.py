@@ -35,6 +35,15 @@ def has_data(payload):
     return False
 
 
+def file_has_data(path):
+    """저장된 파일에 쓸 만한 자료가 들어 있는지 본다."""
+    try:
+        with open(path, encoding="utf-8") as fp:
+            return has_data(json.load(fp))
+    except Exception:
+        return False
+
+
 def fetch_day(day):
     params = {
         "a": "user.songi.SongiApp",
@@ -112,14 +121,9 @@ def main():
 
         # 이미 받아둔 날은 검사만 하고 넘어간다
         if os.path.exists(path) and not recent:
-            try:
-                with open(path, encoding="utf-8") as fp:
-                    old = json.load(fp)
-                if has_data(old):
-                    index.append(key)
-                    continue
-            except Exception:
-                pass
+            if file_has_data(path):
+                index.append(key)
+                continue
             os.remove(path)      # 내용이 비었으면 지운다
             empty.add(key)
             continue
@@ -132,6 +136,9 @@ def main():
             data = fetch_day(day)
         except Exception as err:
             print(f"{key} 실패: {err}")
+            # 받아온 게 없어도 저장해둔 자료가 있으면 목록에 남긴다
+            if file_has_data(path):
+                index.append(key)
             continue
 
         if data and has_data(data):
@@ -140,6 +147,10 @@ def main():
             index.append(key)
             empty.discard(key)
             print(f"{key} 저장 ({len(data['regions'])}곳)")
+        elif file_has_data(path):
+            # 산림조합에서 잠깐 자료를 안 줄 때 기존 파일을 지우지 않는다
+            index.append(key)
+            print(f"{key} 자료 없음 - 기존 파일 유지")
         else:
             if os.path.exists(path):
                 os.remove(path)
