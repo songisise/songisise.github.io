@@ -648,7 +648,7 @@ function render(d){
       '<div class="chart" id="chartBox"><div class="sub">그리는 중…</div></div></section>';
 
     main.innerHTML =
-      '<p class="lead">' + md + ' 공판 현황입니다.</p>' +
+      '<p class="lead">' + md + ' 공판 현황입니다.<br><span style="font-size:14px;color:var(--ink3)">공판장에 따라 자료가 늦게 올라옵니다. 저녁 8시 이후가 가장 정확합니다.</span></p>' +
       '<dl class="stats num">' +
       '<div><dt>총 물량</dt><dd>' + t.kg.toFixed(1) + ' kg</dd></div>' +
       '<div><dt>총 금액</dt><dd>' + won(t.amt / 10000) + ' 만원</dd></div>' +
